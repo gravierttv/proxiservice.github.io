@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProxiService - Services de Proximité et Dépannage</title>
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #0f172a;
+            --accent: #10b981;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.03);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation / Header */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-logo i {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-contact-nav {
+            background-color: var(--primary);
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background-color 0.2s !important;
+        }
+
+        .btn-contact-nav:hover {
+            background-color: var(--primary-hover) !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 70px 24px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .badge-solo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(37, 99, 235, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Section Services */
+        .services-section {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .service-card h3 {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .service-list {
+            list-style: none;
+        }
+
+        .service-list li {
+            font-size: 13px;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-list li i {
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        /* Section A propos de moi */
+        .about-me-section {
+            background-color: #ffffff;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 60px 24px;
+            margin-top: 60px;
+        }
+
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .about-photo-wrapper {
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .about-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .photo-placeholder {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: var(--bg-light);
+            border: 3px dashed var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            gap: 8px;
+        }
+
+        .photo-placeholder i {
+            font-size: 36px;
+            color: var(--primary);
+        }
+
+        .photo-placeholder span {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .about-content h2 {
+            font-size: 26px;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .about-age {
+            display: inline-block;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .about-content p {
+            color: var(--text-main);
+            font-size: 15px;
+            margin-bottom: 14px;
+            line-height: 1.7;
+        }
+
+        .about-highlights {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .highlight-item {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .highlight-item i {
+            color: var(--primary);
+        }
+
+        /* Section Contact */
+        .contact-section {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 24px;
+        }
+
+        .contact-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 36px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: #94a3b8;
+            padding: 40px 24px;
+            text-align: center;
+            font-size: 13px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .about-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-highlights {
+                justify-content: center;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="brand-logo">
+                <i class="fa-solid fa-user-gear"></i>
+                <span class="brand-name">Proxi<span>Service</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#about">À propos</a>
+                <a href="#contact" class="btn-contact-nav">Me Contacter</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="badge-solo">
+                <i class="fa-solid fa-user-check"></i>
+                Entrepreneur Indépendant & Interlocuteur Unique
+            </div>
+            <h1>Un service personnalisé, direct et de confiance dans votre quartier</h1>
+            <p>Je réalise moi-même l'ensemble de vos travaux technologiques, l'entretien vert de votre terrain et vos besoins du quotidien. Pas d'intermédiaires, une rigueur constante.</p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn-primary">
+                    <i class="fa-solid fa-paper-plane"></i> Demander un service
+                </a>
+                <a href="#services" class="btn-secondary">
+                    <i class="fa-solid fa-list-check"></i> Découvrir les prestations
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services-section" id="services">
+        <div class="section-header">
+            <h2>Mes Services Directs</h2>
+            <p>Des prestations réalisées exclusivement par mes soins avec soin et professionnalisme.</p>
+        </div>
+
+        <div class="services-grid">
+
+            <!-- Service 1: Technologie -->
+            <div class="service-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <h3>Technologie & Numérique</h3>
+                <p>Support informatique et accompagnement technologique sur mesure à domicile ou à distance.</p>
+                <ul class="service-list">
+                    <li><i class="fa-solid fa-check"></i> Dépannage ordinateurs (PC/Mac)</li>
+                    <li><i class="fa-solid fa-check"></i> Configuration Wi-Fi, box & TV</li>
+                    <li><i class="fa-solid fa-check"></i> Installation de matériel & logiciels</li>
+                    <li><i class="fa-solid fa-check"></i> Assistance & prise en main simplifiée</li>
+                </ul>
+            </div>
+
+            <!-- Service 2: Entretien Vert -->
+            <div class="service-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+                <h3>Entretien Vert (Tondage)</h3>
+                <p>Service régulier ou ponctuel pour conserver une pelouse propre et soignée tout au long de la saison.</p>
+                <ul class="service-list">
+                    <li><i class="fa-solid fa-check"></i> Tonte de pelouse (toutes surfaces)</li>
+                    <li><i class="fa-solid fa-check"></i> Coupe de bordures soignée</li>
+                    <li><i class="fa-solid fa-check"></i> Ramassage des herbes & nettoyage</li>
+                    <li><i class="fa-solid fa-check"></i> Passages réguliers programmés</li>
+                </ul>
+            </div>
+
+            <!-- Service 3: Services du quotidien -->
+            <div class="service-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+                <h3>Aide & Services du Quotidien</h3>
+                <p>Un coup de main fiable pour simplifier votre organisation au quotidien.</p>
+                <ul class="service-list">
+                    <li><i class="fa-solid fa-check"></i> Garde d'animaux à domicile</li>
+                    <li><i class="fa-solid fa-check"></i> Surveillance & visites de résidence</li>
+                    <li><i class="fa-solid fa-check"></i> Transport d'objets ou courses légères</li>
+                    <li><i class="fa-solid fa-check"></i> Services personnalisés sur demande</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section A propos de moi -->
+    <section class="about-me-section" id="about">
+        <div class="about-container">
+            <div class="about-photo-wrapper">
+                <!-- Remplacez le src ci-dessous par le lien ou chemin de votre vraie photo -->
+                <!-- Exemple : <img src="ma-photo.jpg" alt="Mon portrait" class="about-photo"> -->
+                <div class="photo-placeholder">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+            </div>
+            <div class="about-content">
+                <h2>À propos de moi</h2>
+                <span class="about-age">Édouard Viau Désiront • 14 ans</span>
+                <p>
+                    Bienvenue chez <strong>ProxiService</strong>. Je suis le fondateur et l'unique intervenant de mon entreprise. Passionné par les nouvelles technologies et soucieux du travail bien fait, j'ai mis en place cette structure pour proposer des services de proximité fiables, humains et réactifs.
+                </p>
+                <p>
+                    En faisant appel à mes services, vous avez l'assurance d'échanger directement avec la personne qui intervient chez vous. Je m'engage à fournir un travail propre, rigoureux et adapté à vos besoins spécifiques.
+                </p>
+                <div class="about-highlights">
+                    <div class="highlight-item"><i class="fa-solid fa-shield-halved"></i> Intervenant unique</div>
+                    <div class="highlight-item"><i class="fa-solid fa-clock"></i> Ponctualité & Réactivité</div>
+                    <div class="highlight-item"><i class="fa-solid fa-comments"></i> Contact direct</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+<section class="contact-section" id="contact">
+    <div class="section-header">
+        <h2>Me Contacter</h2>
+        <p>Remplissez ce formulaire pour m'expliquer votre besoin. Je vous réponds rapidement.</p>
+    </div>
+
+    <div class="contact-box">
+        <form action="https://api.web3forms.com/submit" method="POST">
+            <!-- Clé d'accès Web3Forms (à remplacer par votre vraie clé) -->
+            <input type="hidden" name="access_key" value="a1b847a0-aa29-4b9a-bf2c-834be2244c11">
+
+            <!-- Sujet personnalisé du courriel reçu -->
+            <input type="hidden" name="subject" value="Nouveau message - ProxiService">
+
+            <!-- Redirection optionnelle après envoi (ou suppression pour rester sur la page) -->
+            <input type="hidden" name="from_name" value="ProxiService - Formulaire">
+
+            <div class="form-group">
+                <label for="name">Votre Nom & Prénom</label>
+                <input type="text" id="name" name="name" placeholder="Ex: Jean Dupont" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Votre Adresse Courriel</label>
+                <input type="email" id="email" name="email" placeholder="nom@exemple.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="service">Service concerné</label>
+                <select id="service" name="service">
+                    <option value="Technologie & Support Numérique">Technologie & Support Numérique</option>
+                    <option value="Entretien Vert (Tondage pelouse)">Entretien Vert (Tondage pelouse)</option>
+                    <option value="Aide du quotidien / Autre">Aide du quotidien / Autre besoin</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Détails de votre demande</label>
+                <textarea id="message" name="message" rows="4" placeholder="Décrivez succinctement ce dont vous avez besoin..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-paper-plane"></i> Envoyer le message
+            </button>
+        </form>
+    </div>
+</section>
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" aria-label="X-Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            </div>
+            <p>&copy; 2026 ProxiService - Proposé par votre auto-entrepreneur local.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
